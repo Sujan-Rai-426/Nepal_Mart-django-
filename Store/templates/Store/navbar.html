@@ -1,0 +1,138 @@
+
+
+<!-- just use include tag to include this code -->
+
+
+<!--------------------------------------------------- Navbar - 1 Section ---------------------------------------------------->
+<section>
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand text-warning" style="margin: 0 10px 0 15px; font-weight:600;" href="#"><b><i>NEPAL <sup><u>Mart</u></sup></i></b></a>
+
+
+            <!-------------------------- Toggle button for mobile devices  ------------------------------------>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon btn-warning"></span>
+            </button>
+
+
+            <div class="collapse navbar-collapse " id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link active text-warning mx-1" aria-current="page" href="{% url 'store_index_user' %}"><b> Home </b></a></li>
+
+
+                    <!-------------------------- Dropdown Category button  ------------------------------------>
+                    <li class="nav-item dropdown"><a class="nav-link dropdown-toggle text-warning mx-1" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><b>Categories</b></a>
+                        <ul class="dropdown-menu " aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{% url 'all_products' %}"> All Products</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{% url 'category' 'Electronics' %}">Electronic</a></li>
+                            <li><a class="dropdown-item" href="{% url 'category' 'Furnitures' %}">Furniture</a></li>
+                            <li><a class="dropdown-item" href="{% url 'category' 'Clothing' %}">Clothing</a></li>
+                            <li><a class="dropdown-item" href="{% url 'category' 'Cosmetic' %}">Cosmetic</a></li>
+                            <li><a class="dropdown-item" href="{% url 'category' 'Toys' %}">Kid-Toys</a></li>
+                            <li><a class="dropdown-item" href="{% url 'category' 'Utensils' %}">Utensil</a></li>
+                            <li><a class="dropdown-item" href="{% url 'category' 'Others' %}">Others</a></li>
+                        </ul>
+                    </li>
+                    
+
+                        <!-------------------------- Dropdown Category button  ------------------------------------>
+                    <li class="nav-item dropdown"><a class="nav-link dropdown-toggle text-warning mx-1" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><b>Ticket-Booking</b></a>
+                        <ul class="dropdown-menu " aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{% url 'coming_soon' %}">Cab</a></li>
+                            <li><a class="dropdown-item" href="{% url 'coming_soon' %}">Hotel</a></li>
+                            <li><a class="dropdown-item" href="{% url 'coming_soon' %}">Airplane</a></li>
+                            <li><a class="dropdown-item" href="{% url 'coming_soon' %}">Movie Theater</a></li>
+                        </ul>
+                    </li>
+
+
+                        <!----------- Login and Logout like on the basis of user is authenticated or not ---------->
+                    {% if user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link text-warning mx-1" href="{% url 'logout_user' %}">Logout</a></li>
+
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link text-warning mx-1" href="{% url 'login_user' %}">Login</a></li>
+                        <li class="nav-item"><a class="nav-link text-warning mx-1" href="{% url 'register_user' %}">Signup</a></li>
+
+                    {% endif %}
+
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+</section>
+
+
+
+
+
+
+
+
+
+<!--------------------------------- Navbar - 2 Section [ containing varieties of Categories ]---------------------------------->
+<section style="align-items:center;">
+
+    <nav style=" display:flex; align-content: center;   background-color:black;   ">
+
+        <!------------------------------- Category Buttoms  ------------------------------->
+        <a href="{% url 'all_products' %}"><button type="button" class="btn btn-outline-warning" style="align-content: right; margin-top:8px; margin-bottom:12px; margin-left:35px; border-radius:25px; box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);"> <b><i>All Product</i></b></button></a>
+
+        <a href="{% url 'category' 'Electronics' %}"><button type="button" class="btn btn-outline-warning" style="align-content: right; margin-top:8px; margin-bottom:12px; margin-left:35px; border-radius:25px; box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);"> <i>Electronics</i></button></a>
+
+        <a href="{% url 'category' 'Furnitures' %}"><button type="button" class="btn btn-outline-warning" style="align-content: right; margin-top:8px; margin-bottom:12px; margin-left:35px; border-radius:25px; box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);"> <i>Furnitures</i></button></a>
+
+        <a href="{% url 'category' 'Clothing' %}"><button type="button" class="btn btn-outline-warning" style="align-content: right; margin-top:8px; margin-bottom:12px; margin-left:35px; border-radius:25px; box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);"> <i>Clothings</i></button></a>
+
+        <a href="{% url 'category' 'Cosmetic' %}"><button type="button" class="btn btn-outline-warning" style="align-content: right; margin-top:8px; margin-bottom:12px; margin-left:35px; border-radius:25px; box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);"> <i>Cosmetics</i></button></a>
+
+        <a href="{% url 'category' 'Toys' %}"><button type="button" class="btn btn-outline-warning" style="align-content: right; margin-top:8px; margin-bottom:12px; margin-left:35px; border-radius:25px; box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);"> <i>Kid-Toys</i></button></a>
+
+        <a href="{% url 'category' 'Utensils' %}"><button type="button" class="btn btn-outline-warning" style="align-content: right; margin-top:8px; margin-bottom:12px; margin-left:35px; border-radius:25px; box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);"> <i>Utensils</i></button></a>
+
+        <!-- <a href="{% url 'category' 'Others' %}"><button type="button" class="btn btn-outline-warning" style="align-content: right; margin-top:8px; margin-bottom:12px; margin-left:35px; border-radius:25px; box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);"> <b>Others</b></button></a> -->
+
+
+    </nav>
+
+</section>
+
+
+
+
+
+
+<!---------------------------------- Navbar - 3 Section [ Containing cart and search bar] ----------------------------------->
+<section style="align-items:center; position:sticky;  "> 
+
+    <nav style=" display:flex; justify-content:space-between; position:sticky;   background-color:black;   ">
+
+                <!----------------------------- Search bar button  --------------------------------------->
+                <form method="post" role="search" action="{% url 'search_product' %}" class="d-flex" style="margin-top:10px; margin-bottom: 10px; margin-left:43%">
+                    {% csrf_token %}
+                    <input name="searched" type="search" placeholder="Search" aria-label="Search" class="form-control me-2 ">
+                    <button class="btn btn-outline-warning" type="submit"><b>Search</b></button>
+                </form>
+
+
+                <!------------------------------------ Cart Button  ------------------------------->
+            <form action="" style="align-content: right; margin-top:10px; margin-bottom:10px; margin-right: 30px; margin-left:10%;">
+                <a href="{% url 'cart_products' %}" class="btn btn-outline-warning">
+                    <b>
+                            <!--Update no.of product quantity  icon-->
+                        <span id="cart_quantity" class="badge bg-warning text-dark ms-1 rounded-pill">{{ cart | length }}</span> 
+                            <!--Cart icon-->
+                        <i class="bi bi-cart3"> Cart </i> 
+                    </b>
+                <!--------------------------- Svg for cart icon  ------------------------------>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart3" viewBox="0 0 16 16">
+                    <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l.84 4.479 9.144-.459L13.89 4zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/></svg>
+                </a>
+            </form>
+
+    </nav>
+</section>
+

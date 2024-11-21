@@ -1,0 +1,126 @@
+{% extends 'Store/base.html' %}
+{% load static %}
+
+{% block title %} Home Page {% endblock title %}
+
+
+{% block content %}
+
+<div class="container-fluid px-0"  >
+
+
+    <!--------------------------------------  Carousel Picture ------------------------------------------>
+    <div style="display: flex; height:54%; margin-left:0%; box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);">
+        <div id="carouselExampleDark" class="carousel carousel-dark slide" style=" width:100%; ">
+
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+
+            <div class="carousel-inner" >
+                <div class="carousel-item active" data-bs-interval="10000">
+                    <img src="/static/img/cover1.webp" style="display: flex; height: 100%; margin-left:0%;" class="d-block w-100" alt="watch">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5 style="color: white;">First slide label</h5>
+                        <p style="color: white;">Some representative placeholder content for the first slide.</p>
+                    </div>
+                </div>
+                <div class="carousel-item" data-bs-interval="2000">
+                    <img src="/static/img/cover2.jpeg" style="display: flex; height: 100%; margin-left:0%;" class="d-block w-100" alt="Sofa">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Second slide label</h5>
+                        <p>Some representative placeholder content for the second slide.</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="/static/img/iphone.jpeg" style="display: flex; height: 100%; margin-left:0%;" class="d-block w-100" alt="iphone">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5 style="color: white;">Third slide label</h5>
+                        <p style="color: white;">Some representative placeholder content for the third slide.</p>
+                    </div>
+                </div>
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+
+        </div>
+
+    </div>
+
+
+        <!--------------------------------------  Product Card ------------------------------------------>
+        <div class="container-fluid px-0"  >
+
+
+       
+            
+
+
+
+            <!--------------------------------------  Product Card ------------------------------------------>
+            <div style="display: grid; grid-template-columns:repeat(4,1fr); gap:10px; height: 484px;">
+                {% for product in products %}
+
+                <!-------------------   In sale Product Card ---------------------->
+                    {% if product.in_sale %}
+                    
+                        <div class="card mb-3" style="width:100%; margin-top:1%; margin-left:1%; box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);">
+                                <!-------------------  Sale Mini badge  ------------------->
+                            <div class="badge bg-dark text-warning position-absolute" style="top: 0.5rem; right:0.5rem">On Sale !!!</div>
+                            <img src="{{ product.image.url }}" style="height:240px; width:100%; " class="card-img-top" alt="{{product.name}}">
+                            <div class="card-body text-center">
+                                <h3 class="card-title text-center my-2px"><b>{{ product.name }}</b></h3>
+                                <!-- <p class="text-center" style="color: green;"><b>Available In Sale !!!</b> </p> -->
+                                
+                                <h6 class="text-center " style="margin-bottom:10px;"><b>NPR. </b>  <strike style="color:red;">{{product.price}}</strike>  <b>{{ product.in_sale_price }}</b></h6> 
+                                <br>
+                                
+                                <a href="{% url 'product_detail' product.id  %}" ><button type="button" class="btn btn-warning"><b>Buy Now</b></button></a>
+                            </div>
+
+                                <!----------- footer to show date  ----------->
+                            <div class="card-footer text-body-secondary text-center"><small class="text-muted"><b>Updated :</b> {{product.update_date}}</small></div>
+                        </div>
+                    
+                <!-------------------   Normal Product Card ---------------------->
+                    {% else %}
+                    
+                        <div class="card mb-3" style="width:100%; margin-top:1%; margin-left:1%; box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);">
+                            <img src="{{ product.image.url }}" style="height:240px; width:100%;" class="card-img-top" alt="{{product.name}}">
+                            <div class="card-body text-center my-2px">
+                                <h3 class="card-title text-center my-2px"><b>{{ product.name }}</b></h3>
+                                <h6 class="text-center " style="margin-bottom: 10px;"><b>NPR. {{product.price}}</b></h6> 
+                                <br>
+                                
+                                <a href="{% url 'product_detail' product.id  %}"><button type="button" class="btn btn-warning"><b>Buy Now</b></button></a>
+                            </div>
+                                <!----------- footer to show date  ----------->
+                            <div class="card-footer text-body-secondary text-center"><small class="text-muted"><b>Updated :</b> {{product.update_date}}</small></div>
+
+                        </div>
+                    
+                    {% endif %}
+
+                {% endfor %}
+            </div>
+            
+            
+            
+        </div>
+
+        
+        <!--------------------Link Image Category  ------------------ -->
+    <!-- <div class="card-body text-success" style="max-width: 10rem; height:12rem; padding:0; margin:1.5px 0.5px 0.5px 0.5px; background-color:darkgrey;">
+        <a href="{% url 'category' 'Electronics' %}"><img style=" width:100%; height:100%; " src="/static/img/mobile.jpeg" alt="mobile.jpeg"></a>
+    </div> -->
+
+{% endblock content %}

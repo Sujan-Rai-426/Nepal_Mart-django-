@@ -1,0 +1,187 @@
+{% extends 'Store/base.html' %}
+{% load static %}
+
+{% block title %} Product Details Page {% endblock title %}
+
+
+{% block content %}
+
+        <!--------------------------------------  Product Detail Card ------------------------------------------>
+<div class="container-fluid "  >
+
+    <section >
+            {% if product.in_sale %}
+        <!------------------------------ Product Detail Card for Product that are not in_sale ------------------------------>
+                <div class="card mb-4" style="max-width: 100%; margin:0.5%; box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5); background-color:#caedba;">
+                    <div class="row g-0" style="height: 450px;" >
+                        <div class="col-md-5" >
+                            <img src="{{ product.image.url }}" style="height: 450px; width:100%;"  class="img-fluid rounded-start" alt="{{ product.name }}">
+                        </div>
+                        <div class="col-md-7" style="padding:15px">
+                            <div class="card-body" style="margin-top: 1.5%;">
+                                <h3 class="card-title"><b>{{product.name}}</b></h3>
+
+                                <p style="color: green; margin-top:25px;"><b>Available In Sale !!!</b></p>
+                                <h6 class=" p-0" style="margin-top: 10px; padding:0px"><strike style="color:red;"><b>NRP. </b>{{product.price}} </strike>
+                                <h5 style="margin-bottom:10px;"><b>NPR.</b>  {{ product.in_sale_price }}</h5> 
+                                    <br>
+                                    
+
+                                <p class="card-text" style="padding-right: 55px;">{{product.description}}</p>
+                                    <br>
+
+                                <!--------------- add to cart button  --------------->
+                                <div style="display: flex;">
+                                    <button value="{{product.id}}" id="add-cart-id" type="button" class="btn btn-success">Add to Cart</button>
+                                        
+                                        <!-------------------- dropdown menu for quantity -------------------->
+                                    <div class="col-md-0.5 mx-3">
+                                        <select id="qty-cart-id" class="form-select btn-outline-dark " >
+                                        
+                                            <!-- <option selected>Open this select menu</option> -->
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="3">4</option>
+                                            <option value="3">5</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                    <br>
+
+                                <p class="card-text"><small class="text-muted"><b>Updated :</b> {{product.update_date}}</small></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            {% else %}
+        <!------------------------------ Product Detail Card for Product that are not in_sale ------------------------------>
+                
+                <div class="card mb-3" style="max-width: 100%; margin:.5%; box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5); background-color:#f1f0cf;">
+                    <div class="row g-0" style="height: 450px;" >
+                        <div class="col-md-5" style="position: relative;">
+                            <img src="{{ product.image.url }}" style="height: 450px; width:100%;"  class="img-fluid rounded-start" alt="{{ product.name }}">
+                        </div>
+                        <div class="col-md-7" style="padding:15px">
+                            <div class="card-body" style="margin-top: 5%;">
+                                <h3 class="card-title"><b>{{product.name}}</b></h3>
+                                <br>
+                                <h5  style="margin:15px 0 10px 0;"><b>NRP. </b>{{product.price}}</h5>
+
+                                <p class="card-text">{{product.description}}</p>
+                                <br>
+
+                                <div style="display: flex;">
+                                    <button  type="button"  value="{{ product.id }}" id="add-cart-id" class="btn btn-success">Add to Cart</button>
+                        <!-------------------- dropdown menu for quantity -------------------->
+                                    <div class="col-md-0.5 mx-3">
+                                        <select id="qty-cart-id" class="form-select btn-outline-dark " >
+                                        
+                                            <!-- <option selected>Open this select menu</option> -->
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="3">4</option>
+                                            <option value="3">5</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <br>
+
+                                <p class="card-text"><small class="text-muted"> Updated on {{product.update_date}}</small></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+            {% endif %}
+
+
+        <!-------------------------------- ajax java scripts for handling add to cart---------------------------------->
+            <script>
+                //id = 'add-cart-id' so #add-cart-id 
+                $(document).on('click', '#add-cart-id', function(e){
+                    e.preventDefault();
+                    $.ajax({
+                        type:'POST',
+                        url:"{% url 'add_cart' %}",
+                        data:{
+                            product_id:$('#add-cart-id').val(),
+                            product_qty:$('#qty-cart-id option:selected').text(),
+                            csrfmiddlewaretoken:'{{ csrf_token }}',
+                            action: 'post'
+                        },
+
+                        success: function(json){
+                            document.getElementById("cart_quantity").textContent=json.qty
+                            location.reload();
+                        },
+                        error:function(xhr, errmsg, err){
+                        }
+                    });
+                })
+            </script>
+
+    </section>
+
+<br>
+
+
+
+    <section>
+
+            <!-------------------------------------- Other Recommended Product Card Below ------------------------------------------>
+            <div style="display: grid; grid-template-columns:repeat(3,1fr); gap:10px; height: 484px;">
+                {% for product in products %}
+
+                <!-------------------   In sale Product Card ---------------------->
+                    {% if product.in_sale %}
+                    
+                        <div class="card mb-3" style="width:100%; margin-top:1%; margin-left:1%; box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);">
+                                <!-------------------  Sale Mini badge  ------------------->
+                            <div class="badge bg-dark text-warning position-absolute" style="top: 0.5rem; right:0.5rem">On Sale !!!</div>
+                            <img src="{{ product.image.url }}" style="height:240px; width:100%; " class="card-img-top" alt="{{product.name}}">
+                            <div class="card-body text-center">
+                                <h3 class="card-title text-center my-2px"><b>{{ product.name }}</b></h3>
+                                <!-- <p class="text-center" style="color: green;"><b>Available In Sale !!!</b> </p> -->
+                                
+                                <h6 class="text-center " style="margin-bottom:10px;"><b>NPR. </b>  <strike style="color:red;">{{product.price}}</strike>  <b>{{ product.in_sale_price }}</b></h6> 
+                                <br>
+                                
+                                <a href="{% url 'product_detail' product.id  %}" ><button type="button" class="btn btn-warning"><b>Buy Now</b></button></a>
+                            </div>
+
+                                <!----------- footer to show date  ----------->
+                            <div class="card-footer text-body-secondary text-center"><small class="text-muted"><b>Updated :</b> {{product.update_date}}</small></div>
+                        </div>
+                    
+                <!-------------------   Normal Product Card ---------------------->
+                    {% else %}
+                    
+                        <div class="card mb-3" style="width:100%; margin-top:1%; margin-left:1%; box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);">
+                            <img src="{{ product.image.url }}" style="height:240px; width:100%;" class="card-img-top" alt="{{product.name}}">
+                            <div class="card-body text-center my-2px">
+                                <h3 class="card-title text-center my-2px"><b>{{ product.name }}</b></h3>
+                                <h6 class="text-center " style="margin-bottom: 10px;"><b>NPR. {{product.price}}</b></h6> 
+                                <br>
+                                
+                                <a href="{% url 'product_detail' product.id  %}"><button type="button" class="btn btn-warning"><b>Buy Now</b></button></a>
+                            </div>
+                                <!----------- footer to show date  ----------->
+                            <div class="card-footer text-body-secondary text-center"><small class="text-muted"><b>Updated :</b> {{product.update_date}}</small></div>
+
+                        </div>
+                    
+                    {% endif %}
+
+                {% endfor %}
+            </div>
+
+
+        
+    </section>
+</div>
+{% endblock content %}

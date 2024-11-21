@@ -1,0 +1,213 @@
+
+
+
+
+{% extends 'Store/base.html' %}
+{% load static %}
+
+{% block title %} Home Page {% endblock title %}
+
+
+{% block content %}
+
+<div class="container-fluid">
+    
+        <!-----------  Card to show the Total cost of product in cart  ----------->
+        <div class="card" style="background-color: rgb(169, 215, 242); margin:0.5%;" >
+            <div class="card-header"> Confirm your purchase by doing payment from payment method...</div>
+            <div class="card-body">
+                <h5 class="card-title" style="color: black;"><strong>Total :</strong></h5>
+                <p class="card-text"><b> NPR.  {{totals}} </b></p>
+            </div>
+
+            <div style="padding: 0 0 10px 15px; ">
+                <a href="{% url 'coming_soon' %}" class="btn btn-success btn-outline-light"> <b>Payment Method</b></a>
+            </div>
+        </div>
+
+
+        <!----------------- Cards Section to show the product in cart  ----------------->
+    {% if cart_products %}
+    
+    {% for product in cart_products  %}
+    
+    
+    {% if product.in_sale %}
+        <!------------------------------ Product Detail Card for Product that are not in_sale ------------------------------>
+                <div class="card mb-4" style="max-width: 100%; margin:0.5%; box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5); background-color:#caedba;">
+                    <div class="row g-0" style="height: 425px;" >
+                        <div class="col-md-6" >
+                            <img src="{{ product.image.url }}" style="height: 425px; width:100%;"  class="img-fluid rounded-start" alt="{{ product.name }}">
+                        </div>
+                        <div class="col-md-6" style="padding:5px">
+                            <div class="card-body" style="margin-top: 1.5%;">
+                                <h3 class="card-title"><b>{{product.name}}</b></h3>
+
+                                <p style="color: green; margin-top:25px;"><b>Available In Sale !!!</b></p>
+                                <h6 class=" p-0" style="margin-top: 10px; padding:0px"><strike style="color:red;"><b>NRP. </b>{{product.price}} </strike>
+                                <h5 style="margin-bottom:5px;"><b>NPR.</b>  {{ product.in_sale_price }}</h5> 
+                                    <br>
+                                    
+
+                                <p class="card-text" style="padding-right: 55px;">{{product.description}}</p>
+                                    <br>
+
+                                <!--------------- add to cart button  --------------->
+                                <div style="display: flex;">
+                                    <div >
+                                        <button class="delete-product-id btn btn-danger" data-index="{{ product.id }}" type="button" >Delete</button>
+                                    </div>
+
+                                    <div style="margin-left:25px;">
+                                        <button data-index="{{product.id}}" class="update-cart-id btn btn-warning btn-outline-dark" type="button" ><b> Update </b></button>
+                                    </div>
+                                        
+                                        <!-------------------- dropdown menu for quantity -------------------->
+                                    <div class="col-md-0.5 mx-2">
+                                        <select id="select{{product.id}}" class="form-select btn-outline-dark " >
+                                            {% for key, value in quantities.items %}
+                                                {% if key == product.id|slugify %}
+                                                    <option selected> {{ value }} </option>                                                     
+                                                {% endif %}
+                                            {% endfor %}
+                                    
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="3">4</option>
+                                                <option value="3">5</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                    <br>
+
+                                <p class="card-text"><small class="text-muted"><b>Updated :</b> {{product.update_date}}</small></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            {% else %}
+        <!------------------------------ Product Detail Card for Product that are not in_sale ------------------------------>
+                
+                <div class="card mb-3" style="max-width: 100%; margin:.5%; box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5); background-color:#f1f0cf;">
+                    <div class="row g-0" style="height: 425px;" >
+                        <div class="col-md-6" style="position: relative;">
+                            <img src="{{ product.image.url }}" style="height: 425px; width:100%;"  class="img-fluid rounded-start" alt="{{ product.name }}">
+                        </div>
+                        <div class="col-md-6" style="padding:5px">
+                            <div class="card-body" style="margin-top: 5%;">
+                                <h3 class="card-title"><b>{{product.name}}</b></h3>
+                                <br>
+                                <h5  style="margin:15px 0 10px 0;"><b>NRP. </b>{{product.price}}</h5>
+
+                                <p class="card-text">{{product.description}}</p>
+                                <br>
+
+                                <div style="display: flex;">
+
+                                    <div >
+                                        <button class="delete-product-id btn btn-danger" data-index="{{ product.id }}" type="button" > Delete </button>
+                                    </div>
+
+                                    <div style="margin-left:25px;">
+                                        <button data-index="{{product.id}}" class="update-cart-id btn btn-outline-dark btn-warning" type="button"><b> Update </b></button>
+                                    </div>
+
+                                    
+                        <!-------------------- dropdown menu for quantity -------------------->
+                                    <div class="col-md-0.5 mx-2">
+                                        <select id="select{{product.id}}" class="form-select btn-outline-dark " >
+                                            {% for key,value in quantities.items %}
+                                                {% if key == product.id|slugify %}
+                                                    <option selected> {{ value }} </option>                                                     
+                                                {% endif %}
+                                            {% endfor %}
+
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="3">4</option>
+                                            <option value="3">5</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <br>
+
+                                <p class="card-text"><small class="text-muted"> <b> Updated </b>: {{product.update_date}}</small></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+            {% endif %}
+        
+        {% endfor %}
+    {% else %}
+        <h1 class="text-center">There is no item in your cart right now🧐...</h1>
+        
+    {% endif %}
+        
+
+</div>
+
+
+
+<!-------------------------------- ajax java scripts for handling update and Delete from cart---------------------------------->
+    <script>
+
+
+        //<----------------------- ajax java scripts for handling update to cart------------------------->
+
+        //class = 'update-cart-id' so .update-cart-id 
+        $(document).on('click', '.update-cart-id', function(e){
+            e.preventDefault();
+            var productid = $(this).data('index');
+            $.ajax({
+                type:'POST',
+                url:"{% url 'update_cart' %}",
+                data:{
+                    product_id:$(this).data('index'),
+                    product_qty:$('#select' + productid + ' option:selected').text(),
+                    csrfmiddlewaretoken:'{{ csrf_token }}',
+                    action: 'post'
+                },
+
+                success: function(json){
+                    location.reload();
+                },
+                error:function(xhr, errmsg, err){
+                }
+            });
+        })
+
+
+    //<!----------------------- ajax java scripts for handling delete from cart------------------------->
+    $(document).on('click', '.delete-product-id', function(e){
+        e.preventDefault();
+        $.ajax({
+            type:'POST',
+            url:"{% url 'delete_cart' %}",
+            data:{
+                product_id:$(this).data('index'),
+                csrfmiddlewaretoken:'{{ csrf_token }}',
+                action: 'post'
+            },
+
+            success: function(json){
+                location.reload();
+            },
+            error:function(xhr, errmsg, err){
+            }
+        });
+    })
+
+
+    </script>
+
+
+
+
+{% endblock content %}

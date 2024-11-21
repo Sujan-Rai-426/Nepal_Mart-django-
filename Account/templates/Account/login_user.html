@@ -1,0 +1,40 @@
+
+
+
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Login Form {% endblock title %}
+
+{% block content %}
+
+<main class="form-signin " style="display: flex; justify-content:center; align-items: center; height: 75vh;">
+    <form method="post" action="{% url 'login_user' %}" >
+        {% csrf_token %}
+
+            <!-- <img class="mb-4" src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57"> -->
+            <h1 class="h3 mb-3 fw-normal text-center"><u><b>Login Form</b></u></h1>
+        
+            <div class="form-floating">
+                <input  id="username" name="username" placeholder="username" type="text" class="form-control">
+                <label for="username">Username</label>
+            </div>
+
+            <div class="form-floating">
+                <input  id="password" name="password" placeholder="password" type="password" class="form-control">
+                <label for="password">Password</label>
+            </div>
+        
+            <div class="checkbox mb-3">
+                <label> <input type="checkbox" value="remember-me"> Remember me </label>
+            </div>
+            
+            <button class="w-100 btn btn-lg btn-primary" type="submit">Login</button>
+            <br>
+            <p style="margin-top: 15px;">Create new account.<a href="{% url 'register_user' %}">Signup</a></p>
+            
+            <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
+    </form>
+</main>
+{% endblock content %}

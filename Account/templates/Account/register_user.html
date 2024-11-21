@@ -1,0 +1,26 @@
+
+{% extends 'base.html' %}
+
+{% block title %} Registration Form {% endblock title %}
+
+{% block content %}
+
+    <main class="form-signin" style="display: flex; justify-content:center; align-items: center; height: 100vh;" >
+        
+        <div >
+            <form method="post" action="{% url 'register_user' %}"  >
+                {% csrf_token %}
+
+                <h1 class="h3 mb-3 fw-normal text-center"><u><b>Registration Form</b></u></h1>
+                {{register_form.as_p}}
+                
+                <button class="w-100 btn btn-lg btn-primary" type="submit">Signup</button>
+                <br>
+                <p style="margin-top: 15px;">Already have an account?<a href="{% url 'login_user' %}">Login</a></p>
+                
+                <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
+            </form>
+        </div>
+    </main>
+
+{% endblock content %} 
