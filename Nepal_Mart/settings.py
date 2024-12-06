@@ -13,6 +13,12 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 from decouple import config
 
+import cloudinary
+# Import the cloudinary.api for managing assets
+import cloudinary.api
+# Import the cloudinary.uploader for uploading assets
+import cloudinary.uploader
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -40,7 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     # Manually added apps
-    'Store', 'Cart', 'Account',
+    'cloudinary_storage', 'cloudinary', 'Store', 'Cart', 'Account',
     
 ]
 
@@ -127,8 +133,27 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
-MEDIA_ROOTS = BASE_DIR / "media",
-MEDIA_URL = "/media/"
+
+if DEBUG:  #for development
+    MEDIA_URL='/media/'
+    MEDIA_ROOT = BASE_DIR / 'media'  # Access Local media folder
+    
+else: # for deployment
+    MEDIA_URL = f"https://res.cloudinary.com/{os.getenv('CLOUD_NAME')}/image/upload/"  # Cloudinary URLs
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage', # Access cloudinary folder for deployment
+    # CLOUDINARY storage for media files
+    CLOUDINARY_STORAGE = {
+        'CLOUD_NAME': config('CLOUD_NAME'),
+        'API_KEY': config('CLOUD_API_KEY'),
+        'API_SECRET': config('CLOUD_API_SECRET'),
+    }
+# Cloudinary Configuration
+cloudinary.config(
+    cloud_name=config('CLOUD_NAME'),
+    api_key=config('CLOUD_API_KEY'),
+    api_secret=config('CLOUD_API_SECRET'),
+    #secure=True,  # Ensures HTTPS URLs
+)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
